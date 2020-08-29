@@ -2,18 +2,27 @@
 
 <div class="container">
   <h1 class="">HEllo!</h1>
-  <button type="submit" name="newStory" class="btn btn-dark">Create Story</button>
+
+  <a href="/create" class="btn btn-dark text-white">Create Story</a>
+
   <a href="/archive" class="btn btn-dark text-white">Archive</a>
 
 </div>
-<div class="container story">
-  <h2 class="mt-4">Title</h2>
- <div class="story">
-   this is card Lorem ipsum dolor sit amet, consectetur  dipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident sunt in culpa qui officia deserunt mollit anim id est laborum.
-   
- </div>
- <button type="submit" name="edit" class="btn btn-secondary">Edit</button>
- <button type="submit" name="archive" class="btn btn-primary">Archive</button>
-</div>
+<% storys.forEach(story=>{ %>
+      <div class="container story">
+        <h2 class="mt-4"><%= story.storyTitle %></h2>
+       <div class="story">
+         <%= story.content.substring(0,10000)+".." %>
+         <a href="#">Read More</a>
+       </div>
+       <form action="/update" method="post">
+         <input type="hidden" name="storyID" value="<%= story._id%>">
+         <button type="submit" class="btn btn-secondary text-white">Edit</button>
+       </form>
+       <button type="submit" name="archive" class="btn btn-primary">Archive</button>
+     </div>
+     <%  }) %>
+
+
 
 <%- include("partials/footer") -%>

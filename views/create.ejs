@@ -1,0 +1,22 @@
+<%- include("partials/header") -%>
+<div class="container">
+
+<form class="" action="/" method="post">
+  <div class="form-group">
+      <label for="title">Title</label>
+      <input type="text" name="title" id="title"  value="<%=title %>" class="form-control" required>
+    </div>
+    <input type="hidden" name="sId" value="<%=storyId%>">
+    <div class="form-group">
+      <label for="description">Description</label>
+      <textarea name="description" id="description" class="form-control" rows="10"><%= description %></textarea>
+    </div>
+    <a href="/" class="btn btn-secondary">Cancel</a>
+    <button type="submit"  class="btn btn-primary">Save</button>
+    </form>
+
+</div>
+
+
+
+<%- include("partials/footer") -%>
