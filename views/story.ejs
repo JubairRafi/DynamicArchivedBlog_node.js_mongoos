@@ -1,0 +1,15 @@
+<%- include("partials/header") -%>
+
+<div class="container story">
+  <h2 class="mt-4"><%= story.storyTitle %></h2>
+ <div class="story">
+   <%= story.content%>
+ </div>
+ <form action="/update" method="post">
+   <input type="hidden" name="storyID" value="<%= story._id %>">
+   <button type="submit" class="btn btn-dark text-white">Edit</button>
+ </form>
+ <a href="/" class="btn btn-secondary">Back</a>
+</div>
+
+<%- include("partials/footer") -%>

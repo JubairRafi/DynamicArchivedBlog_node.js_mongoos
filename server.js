@@ -16,14 +16,6 @@ const storySchema = new mongoose.Schema({
 });
 const Story = mongoose.model("Story",storySchema)
 
-// const newStory = new Story({
-//     storyTitle:"test",
-//     content:"test"
-//   });
-// newStory.save()
-
-//get request
-
 
 app.get("/",(req,res)=>{
   Story.find({},(err,foundStorys)=>{
@@ -42,6 +34,15 @@ app.get("/about",(req,res)=>{
 })
 app.get("/archive",(req,res)=>{
   res.render("archive")
+})
+
+app.get("/story/:id",(req,res)=>{
+  const id = req.params.id
+  Story.findOne({_id:id},(err,foundStory)=>{
+    if(!err){
+      res.render("story",{story:foundStory})
+    }
+  })
 })
 
 //post request
