@@ -9,7 +9,7 @@
            <a href="/story/<%= archStory.archived._id %>">Read More</a>
          </div>
          <form action="/delete" method="post">
-           <input type="hidden" name="storyID" value="<%= archStory.archived._id %>">
+           <input type="hidden" name="archStoryID" value="<%= archStory._id %>">
            <button type="submit" class="btn btn-danger text-white">Delete</button>
          </form>
        </div>

@@ -131,7 +131,13 @@ app.post("/archive",(req,res)=>{
       }
     })
   })
+})
 
+app.post("/delete",(req,res)=>{
+  const archStoryID = req.body.archStoryID
+  Archive.findByIdAndRemove(archStoryID,(err)=>{
+    res.redirect("/archive");
+  })
 })
 
 app.listen(3000, err=>{
