@@ -5,11 +5,15 @@
  <div class="story">
    <%= story.content%>
  </div>
- <form action="/update" method="post">
-   <input type="hidden" name="storyID" value="<%= story._id %>">
-   <button type="submit" class="btn btn-dark text-white">Edit</button>
- </form>
- <a href="/" class="btn btn-secondary">Back</a>
+ <% if(flag === "story"){ %>
+   <form action="/update" method="post">
+     <input type="hidden" name="storyID" value="<%= story._id %>">
+     <button type="submit" class="btn btn-dark text-white">Edit</button>
+   </form>
+   <a href="/" class="btn btn-secondary">Back</a>
+   <%}%>
+
+ <a href="/archive" class="btn btn-secondary">Back</a>
 </div>
 
 <%- include("partials/footer") -%>

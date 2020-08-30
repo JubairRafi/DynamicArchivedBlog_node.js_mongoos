@@ -1,7 +1,19 @@
 <%- include("partials/header") -%>
 
 <div class="container">
-  Archived!
+  <% archStorys.forEach(archStory=>{ %>
+        <div class="container story">
+          <h2 class="mt-4"><%= archStory.archived.storyTitle %></h2>
+         <div class="story">
+           <%= archStory.archived.content.substring(0,500)+".." %>
+           <a href="/story/<%= archStory.archived._id %>">Read More</a>
+         </div>
+         <form action="/delete" method="post">
+           <input type="hidden" name="storyID" value="<%= archStory.archived._id %>">
+           <button type="submit" class="btn btn-danger text-white">Delete</button>
+         </form>
+       </div>
+       <%  }) %>
 </div>
 
 <%- include("partials/footer") -%>

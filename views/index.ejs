@@ -12,14 +12,17 @@
       <div class="container story">
         <h2 class="mt-4"><%= story.storyTitle %></h2>
        <div class="story">
-         <%= story.content.substring(0,10000)+".." %>
+         <%= story.content.substring(0,500)+".." %>
          <a href="/story/<%= story._id %>">Read More</a>
        </div>
        <form action="/update" method="post">
          <input type="hidden" name="storyID" value="<%= story._id %>">
          <button type="submit" class="btn btn-secondary text-white">Edit</button>
        </form>
-       <button type="submit" name="archive" class="btn btn-primary">Archive</button>
+       <form action="/archive" method="post">
+         <input type="hidden" name="storyID" value="<%= story._id %>">
+         <button type="submit" name="archive" class="btn btn-primary">Archive</button>
+       </form>
      </div>
      <%  }) %>
 

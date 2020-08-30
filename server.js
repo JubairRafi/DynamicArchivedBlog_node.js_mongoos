@@ -13,8 +13,14 @@ mongoose.connect("mongodb://localhost:27017/storyDB",{useNewUrlParser:true, useU
 const storySchema = new mongoose.Schema({
   storyTitle:String,
   content:String
-});
+})
 const Story = mongoose.model("Story",storySchema)
+
+const archivedSchema = new mongoose.Schema({
+  storyType: String,
+  archived: storySchema
+})
+const Archive = mongoose.model("Archive",archivedSchema)
 
 
 app.get("/",(req,res)=>{
@@ -33,14 +39,44 @@ app.get("/about",(req,res)=>{
   res.render("about")
 })
 app.get("/archive",(req,res)=>{
-  res.render("archive")
+  Archive.find({},(err,foundArchivedStory)=>{
+    if (!err) {
+      res.render("archive",{archStorys:foundArchivedStory})
+    }
+  })
+
 })
 
 app.get("/story/:id",(req,res)=>{
   const id = req.params.id
   Story.findOne({_id:id},(err,foundStory)=>{
-    if(!err){
-      res.render("story",{story:foundStory})
+    // if(!err){
+    //   res.render("story",{story:foundStory})
+    // }else{
+    //   console.log("test");
+    //   Archive.findOne({archived :{_id:id}},(err,foundArch)=>{
+    //     console.log(foundArch);
+    //     res.render("story",{story:foundArch})
+    //   })
+    // }
+
+
+    if (err) {
+      console.log(err)
+    }else if (foundStory) {
+      console.log(foundStory);
+      res.render("story",{story:foundStory,flag:"story"})
+    }else{
+      console.log("test")
+          Archive.findOne({"archived._id" :{_id:id}},{_id:false,"archived":true},(err,foundStory)=>{ // TODO: id null
+          const arch = {
+            storyTitle : foundStory.archived.storyTitle,
+            content : foundStory.archived.content,
+            _id : foundStory.archived._id
+          }
+          console.log(arch)
+          res.render("story",{story:arch,flag:"arch"})
+        })
     }
   })
 })
@@ -76,6 +112,26 @@ app.post("/update",(req,res)=>{
   Story.findOne({_id:storyID},(err,foundStory)=>{
     res.render("create",{title:foundStory.storyTitle, description:foundStory.content, storyId: foundStory._id})
   })
+})
+
+app.post("/archive",(req,res)=>{
+  const storyID = req.body.storyID
+  Story.findOne({_id:storyID},(err,foundStory)=>{
+    const archivedStory = new Archive({
+      storyType:"Archived",
+      archived : foundStory
+    })
+    archivedStory.save(err=>{
+      if(!err){
+        Story.findByIdAndRemove(storyID,err=>{
+          if(!err){
+            res.redirect("/")
+          }
+        })
+      }
+    })
+  })
+
 })
 
 app.listen(3000, err=>{
